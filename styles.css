@@ -53,3 +53,14 @@
 .task-action-menu .task-action-options>button:hover,.task-action-menu .task-action-options>button:focus-visible{background:#f0f4fa;filter:none}
 .task-action-menu .task-action-options>.task-action-delete{color:#b34e5d;border-top:1px solid #edf0f6;border-radius:0 0 6px 6px;margin-top:4px;padding-top:11px}
 .task-action-menu .task-action-options>.task-action-delete:hover{background:#fff2f4}
+
+/* Color cues for each task action. */
+.task-action-menu .task-action-options>button{color:var(--action-ink,#526887);background:var(--action-bg,#f5f7fb);font-weight:600}
+.task-action-menu .task-action-options>button+button{margin-top:4px}
+.task-action-menu .task-action-options>[data-start-task]{--action-ink:#946019;--action-bg:#fff7e8;--action-hover:#ffedca}
+.task-action-menu .task-action-options>[data-complete-task]{--action-ink:#28734e;--action-bg:#edf8f1;--action-hover:#dff1e6}
+.task-action-menu .task-action-options>[data-complete-task][data-completed="false"]{--action-ink:#946019;--action-bg:#fff7e8;--action-hover:#ffedca}
+.task-action-menu .task-action-options>[data-work-update]{--action-ink:#7250a3;--action-bg:#f5f0fc;--action-hover:#ece2f8}
+.task-action-menu .task-action-options>[data-edit]{--action-ink:#345eaa;--action-bg:#eef4ff;--action-hover:#dfeaff}
+.task-action-menu .task-action-options>.task-action-delete{--action-ink:#ac3e4d;--action-bg:#fff0f2;--action-hover:#ffe1e6;color:var(--action-ink);border:0;border-radius:6px;margin-top:7px;padding:9px 11px}
+.task-action-menu .task-action-options>button:hover,.task-action-menu .task-action-options>button:focus-visible{background:var(--action-hover,#eaf0f8);filter:none}
