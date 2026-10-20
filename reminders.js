@@ -1,6 +1,6 @@
 import {today} from './core.js?v=20261020-feedbacks-1';
 
-export const reminderDefaults = {enabled:false, minutesBefore:10, sound:true, soundId:'classic', desktop:true, routines:true, events:true, work:true};
+export const reminderDefaults = {enabled:false, minutesBefore:10, sound:true, soundId:'classic', volume:100, desktop:true, routines:true, events:true, work:true};
 export function reminderSettings(data){return {...reminderDefaults,...data.settings?.reminders};}
 
 // One logical occurrence per routine/date or imported event. No copies are persisted.
