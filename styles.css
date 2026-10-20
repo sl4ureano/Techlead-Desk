@@ -68,3 +68,7 @@
 /* Keep file status and save controls visible while content scrolls. */
 .workspace>header{position:sticky;top:0;z-index:25;background:#fff;box-shadow:0 2px 8px #26334d06}
 @media(max-width:720px){#app>aside{z-index:40}}
+
+.reminder-options>.reminder-volume-control{display:grid;grid-template-columns:1fr auto;gap:8px;grid-column:1/-1}
+.reminder-volume-control output{color:#345eaa;font-variant-numeric:tabular-nums;font-weight:600}
+.reminder-volume-control input[type="range"]{grid-column:1/-1;width:100%;margin:3px 0;accent-color:#567dc9;cursor:pointer}
