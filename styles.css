@@ -64,3 +64,7 @@
 .task-action-menu .task-action-options>[data-edit]{--action-ink:#345eaa;--action-bg:#eef4ff;--action-hover:#dfeaff}
 .task-action-menu .task-action-options>.task-action-delete{--action-ink:#ac3e4d;--action-bg:#fff0f2;--action-hover:#ffe1e6;color:var(--action-ink);border:0;border-radius:6px;margin-top:7px;padding:9px 11px}
 .task-action-menu .task-action-options>button:hover,.task-action-menu .task-action-options>button:focus-visible{background:var(--action-hover,#eaf0f8);filter:none}
+
+/* Keep file status and save controls visible while content scrolls. */
+.workspace>header{position:sticky;top:0;z-index:25;background:#fff;box-shadow:0 2px 8px #26334d06}
+@media(max-width:720px){#app>aside{z-index:40}}
