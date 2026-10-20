@@ -39,3 +39,17 @@
 @media(max-width:480px){.welcome-privacy{padding:14px;gap:10px}.welcome-privacy .privacy-symbol{flex-basis:36px;height:36px}.welcome-privacy strong{font-size:14px}}
 
 .feedback-list{display:grid;gap:16px}.feedback-list .idea-card{min-width:0}.feedback-list p{white-space:pre-wrap;overflow-wrap:anywhere}.feedback-list details{margin:16px 0}.feedback-list .focus-tabs{margin-bottom:16px}.feedback-tasks{border-top:1px solid #e5e9f0;margin:16px 0;padding-top:10px}.feedback-tasks button{margin:0 8px 8px 0}
+
+/* Compact task actions; scoped to task cards. */
+.task-tile-actions .task-action-menu{position:relative;flex:none;margin:0;padding:0;border:0}
+.task-action-menu>summary{display:grid;place-items:center;list-style:none;width:34px;height:34px;padding:0;border:1px solid #e0e7f1;border-radius:8px;background:#f8faff;color:#7287a7;cursor:pointer;line-height:1}
+.task-action-menu>summary::-webkit-details-marker{display:none}
+.task-action-menu>summary>span{font-size:24px;line-height:1;transform:translateY(-3px)}
+.task-action-menu>summary:hover,.task-action-menu[open]>summary{background:#edf2fa;color:#345baf;border-color:#cbd8ed}
+.task-action-menu>summary:focus-visible{outline:2px solid #567dc9;outline-offset:3px}
+.task-action-menu>.task-action-options{position:absolute;right:0;bottom:calc(100% + 7px);z-index:20;width:206px;max-width:calc(100vw - 56px);padding:6px;background:#fff;border:1px solid #e1e7f0;border-radius:10px;box-shadow:0 8px 28px #26334d20}
+.task-action-menu:not([open])>.task-action-options{display:none}
+.task-action-menu .task-action-options>button{display:block;width:100%;padding:9px 11px;border:0;border-radius:6px;background:transparent;color:#526887;text-align:left;font-size:12px;line-height:1.4;font-weight:500;white-space:normal}
+.task-action-menu .task-action-options>button:hover,.task-action-menu .task-action-options>button:focus-visible{background:#f0f4fa;filter:none}
+.task-action-menu .task-action-options>.task-action-delete{color:#b34e5d;border-top:1px solid #edf0f6;border-radius:0 0 6px 6px;margin-top:4px;padding-top:11px}
+.task-action-menu .task-action-options>.task-action-delete:hover{background:#fff2f4}
