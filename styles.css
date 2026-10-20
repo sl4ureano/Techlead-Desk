@@ -72,3 +72,7 @@
 .reminder-options>.reminder-volume-control{display:grid;grid-template-columns:1fr auto;gap:8px;grid-column:1/-1}
 .reminder-volume-control output{color:#345eaa;font-variant-numeric:tabular-nums;font-weight:600}
 .reminder-volume-control input[type="range"]{grid-column:1/-1;width:100%;margin:3px 0;accent-color:#567dc9;cursor:pointer}
+
+/* Distinct, readable priority badges on task cards. */
+.task-tile-priority.priority-baixa{color:#426d9c;background:#edf4fc;border-radius:5px;padding:4px 7px}
+.task-tile-priority.priority-média{color:#92651d;background:#fff5df;border-radius:5px;padding:4px 7px}
