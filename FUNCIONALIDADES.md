@@ -62,6 +62,8 @@ Os registros são pessoais: o Desk não envia o feedback para a pessoa. Excluir 
 
 ## Arquitetura
 
+![Editor de arquitetura do Techlead Desk](docs/arquitetura.png)
+
 Desenhe uma visão simples dos componentes e das integrações de uma aplicação, mantendo o contexto junto do trabalho do dia a dia.
 
 - Crie vários projetos de arquitetura, cada um com nome, descrição e desenho próprios.
