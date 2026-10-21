@@ -48,6 +48,8 @@ const {pathToFileURL}=require('node:url');
    await page.locator('.file-actions summary').click();await page.locator('#switch-file').click();await page.locator('#app').waitFor({state:'visible'});
    await page.locator('nav [data-nav="tasks"]').click();await page.getByRole('heading',{name:'Tarefa compartilhada web e desktop'}).waitFor();
    await page.evaluate(()=>scrollTo(0,500));await page.locator('nav [data-nav="overview"]').click();assert.equal(await page.evaluate(()=>scrollY),0);
+   await require('./architecture-flow.cjs')(page,{taskTitle:'Tarefa compartilhada web e desktop',screenshotPath:path.join(dir,label+'-architecture.png')});
+   assert.equal(await page.evaluate(()=>JSON.parse(window.testFiles['browser.json']).architectures[0].nodes.length),1);
    await page.screenshot({path:path.join(dir,label+'-workspace.png')});assert.deepEqual(errors,[]);await page.close();
   }
   console.log('PASS Web: módulos HTTP e HTML único file://, splash, criação, JSON, modais fixos, prévia com posição e duração, cancelar troca, reabrir e navegação. Capturas: '+dir);

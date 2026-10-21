@@ -1,5 +1,6 @@
+import {validateArchitectures} from './architecture-model.js';
 export const today = (d=new Date()) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-export const fresh = () => ({schemaVersion:1,updatedAt:new Date().toISOString(),tasks:[],topics:[],decisions:[],routines:[],notes:'',ideas:[],feedbacks:[],calendarEvents:[],calendarImports:[],settings:{fileLimitMB:10,taskLimitMB:25}});
+export const fresh = () => ({schemaVersion:1,updatedAt:new Date().toISOString(),architectures:[],tasks:[],topics:[],decisions:[],routines:[],notes:'',ideas:[],feedbacks:[],calendarEvents:[],calendarImports:[],settings:{fileLimitMB:10,taskLimitMB:25}});
 const obj=x=>x&&typeof x==='object'&&!Array.isArray(x);
 const dateOnly=x=>/^\d{4}-\d{2}-\d{2}$/.test(x)&&today(new Date(x+'T12:00:00'))===x;
 export function attachmentError(a){
@@ -60,6 +61,7 @@ export function validate(data){
  if(data.calendarImports!==undefined&&(!Array.isArray(data.calendarImports)||data.calendarImports.some(x=>!obj(x)||typeof x.source!=='string'||typeof x.syncedAt!=='string')))throw Error('Metadados de importação inválidos.');
  if(data.settings!==undefined&&(!obj(data.settings)||!['fileLimitMB','taskLimitMB'].every(k=>Number.isFinite(data.settings[k])&&data.settings[k]>0&&data.settings[k]<=100)))throw Error('Limites de anexos inválidos (0 a 100 MB).');
  if(data.settings?.reminders!==undefined){const r=data.settings.reminders;if(r&&r.soundId!==undefined&&!['classic','bell','urgent','rising','digital'].includes(r.soundId))throw Error('Som de alerta inválido.');if(r&&r.volume!==undefined&&(!Number.isFinite(r.volume)||r.volume<0||r.volume>100))throw Error('Volume de alerta inválido (0 a 100).');if(r&&r.desktopPosition!==undefined&&!['center','top-right','bottom-right','top-left','bottom-left'].includes(r.desktopPosition))throw Error('Posição de alerta inválida.');if(r&&r.desktopDuration!==undefined&&(!Number.isInteger(r.desktopDuration)||r.desktopDuration<3||r.desktopDuration>120))throw Error('Tempo de alerta inválido (3 a 120 segundos).');if(r&&r.work!==undefined&&typeof r.work!=='boolean')throw Error('Preferência de alertas de tarefas inválida.');if(!obj(r)||!['enabled','sound','desktop','routines','events'].every(k=>typeof r[k]==='boolean')||![5,10,15,30,60].includes(r.minutesBefore))throw Error('Preferências de alertas inválidas.');}
+ validateArchitectures(data.architectures);
  return warnings;
 }
 export class FileStore{

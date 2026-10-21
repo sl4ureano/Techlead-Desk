@@ -1,7 +1,7 @@
 {
   "name": "techlead-desk",
-  "version": "1.3.0",
-  "description": "Seu espa\u00e7o de trabalho no navegador e no desktop.",
+  "version": "1.4.0",
+  "description": "Seu espaço de trabalho no navegador e no desktop.",
   "author": "Adriano Laureano",
   "private": true,
   "type": "module",
@@ -39,7 +39,8 @@
       "index.html",
       "styles.css",
       "package.json",
-      "!tests/**"
+      "!tests/**",
+      "architecture.css"
     ],
     "linux": {
       "target": [

@@ -60,6 +60,23 @@ Prepare conversas e acompanhe os combinados, tanto dos feedbacks a compartilhar 
 
 Os registros são pessoais: o Desk não envia o feedback para a pessoa. Excluir um feedback preserva as tarefas e remove apenas o vínculo.
 
+## Arquitetura
+
+Desenhe uma visão simples dos componentes e das integrações de uma aplicação, mantendo o contexto junto do trabalho do dia a dia.
+
+- Crie vários projetos de arquitetura, cada um com nome, descrição e desenho próprios.
+- Adicione aplicações/serviços, bancos de dados, filas/eventos, pessoas/clientes e sistemas externos.
+- Arraste os componentes ou mova o componente selecionado com as setas do teclado.
+- Edite o nome, o tipo, a tecnologia e o contexto de cada componente.
+- Conecte origem e destino e descreva a comunicação, por exemplo **HTTPS**, **SQL** ou **publica evento**.
+- Edite ou exclua componentes e conexões. Ao excluir um componente, suas conexões são removidas e os comentários são preservados no projeto.
+- Registre, edite e exclua comentários sobre o projeto ou sobre um componente selecionado.
+- Vincule cada projeto a um assunto e a uma tarefa. Os registros vinculados também oferecem acesso ao desenho.
+- Exporte uma imagem **SVG** para compartilhar o diagrama. Para continuar editando, abra o JSON do Desk.
+- Exclua projetos com confirmação, incluindo seus desenhos e comentários.
+
+As alterações são gravadas automaticamente no mesmo JSON usado pelas versões web e Electron. O botão **Salvar agora** continua disponível. Não é necessário instalar outro editor de diagramas.
+
 ## Agenda
 
 ![Tela da agenda](docs/agenda.png)

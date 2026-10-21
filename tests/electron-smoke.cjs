@@ -110,6 +110,8 @@ const {_electron} = require('playwright');
     assert.equal(await page.locator('#reminder-position').inputValue(),'top-left');
     assert.equal(await page.locator('#reminder-duration').inputValue(),'8');
     await page.locator('#close-reminders').click();
+    await require('./architecture-flow.cjs')(page,{taskTitle:'Revisar entrega desktop',screenshotPath:path.join(dir,'architecture.png')});
+    assert.equal(JSON.parse(await fs.readFile(filename,'utf8')).architectures[0].nodes.length,1);
     await page.locator('.file-actions summary').click();
     const exited=desktop.waitForEvent('close',{timeout:10000});
     await page.locator('#quit-app').click().catch(error=>{if(!page.isClosed())throw error;});

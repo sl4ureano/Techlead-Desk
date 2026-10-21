@@ -1,6 +1,6 @@
 # Techlead Desk
 
-Um espaço pessoal para organizar o dia de quem lidera tecnologia: tarefas, assuntos, feedbacks, agenda, notas e anexos, com alertas visuais e sonoros. Funciona no navegador ou como aplicativo Electron. Os dados ficam em um arquivo JSON local, sem conta e sem envio para servidores.
+Um espaço pessoal para organizar o dia de quem lidera tecnologia: tarefas, assuntos, feedbacks, agenda, arquitetura de aplicações, notas e anexos, com alertas visuais e sonoros. Funciona no navegador ou como aplicativo Electron. Os dados ficam em um arquivo JSON local, sem conta e sem envio para servidores.
 
 ![Visão geral do Techlead Desk](docs/techlead-desk.png)
 
