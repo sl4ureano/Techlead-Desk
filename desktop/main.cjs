@@ -4,6 +4,8 @@ const path = require('node:path');
 const fs = require('node:fs/promises');
 const {fileURLToPath} = require('node:url');
 const {FileService} = require('./file-service.cjs');
+const toastSettings = require('./notification-settings.cjs');
+let configuredAppearance = {...toastSettings.DEFAULTS};
 const ROOT = path.join(__dirname, '..');
 const INDEX = path.join(ROOT, 'index.html');
 const TOAST = path.join(__dirname, 'notification.html');
@@ -39,14 +41,10 @@ async function pick(create) {
 }
 function layoutToasts() {
   if (!main || main.isDestroyed()) return;
-  let offset = 18;
   const area = screen.getDisplayMatching(main.getBounds()).workArea;
-  const display = area.width>=400&&area.height>=240?area:{x:0,y:0,width:1280,height:800};
-  const width = Math.min(396, display.width - 24), height = 226;
-  for (const entry of [...toasts.values()].reverse()) {
-    if (entry.window.isDestroyed()) continue;
-    entry.window.setBounds({x:display.x+display.width-width-18,y:display.y+display.height-height-offset,width,height});
-    offset += height + 6;
+  for(const position of toastSettings.POSITIONS){
+    const group=[...toasts.values()].reverse().filter(t=>!t.window.isDestroyed()&&t.payload.position===position);
+    group.forEach((entry,index)=>entry.window.setBounds(toastSettings.bounds(position,index,group.length,area)));
   }
 }
 function openReminder(tag) { showMain(); main.webContents.send('alert:open', tag); }
@@ -61,18 +59,21 @@ function nativeAlert(payload) {
 function closeToast(id) { const t = toasts.get(id); if (t && !t.window.isDestroyed()) t.window.close(); }
 function notify(payload) {
   if (!payload || typeof payload.title !== 'string' || typeof payload.body !== 'string' || typeof payload.tag !== 'string' || payload.title.length > 2000 || payload.body.length > 4000 || payload.tag.length > 4000) throw Error('Alerta inválido.');
+  payload={...payload,...toastSettings.appearance({...configuredAppearance,...payload})};
   // Native fallback is useful for Wayland environments that restrict overlay positioning.
   if (process.argv.includes('--native-notifications')) { nativeAlert(payload); return; }
   if (toasts.has(payload.tag)) { closeToast(payload.tag); }
-  if (toasts.size >= 3) closeToast(toasts.keys().next().value);
+  const capacity=toastSettings.capacity(screen.getDisplayMatching(main.getBounds()).workArea);
+  const group=[...toasts.entries()].filter(([,t])=>t.payload.position===payload.position);
+  if(group.length>=capacity)closeToast(group[0][0]);
+  if(toasts.size>=3)closeToast(toasts.keys().next().value);
   const win = new BrowserWindow({width:396,height:226,show:false,frame:false,transparent:true,resizable:false,skipTaskbar:true,alwaysOnTop:true,focusable:false,hasShadow:false,webPreferences:{preload:path.join(__dirname,'notification-preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});
   const entry = {window:win,payload,timer:null};
   toasts.set(payload.tag, entry);
   lockNavigation(win);
-  win.once('ready-to-show', () => { layoutToasts(); win.showInactive(); });
+  win.once('ready-to-show', () => { layoutToasts(); win.showInactive(); entry.timer=setTimeout(()=>closeToast(payload.tag),payload.duration*1000); });
   win.webContents.once('did-finish-load', () => { win.webContents.send('toast:payload',payload); });
   win.on('closed', () => { clearTimeout(entry.timer); if (toasts.get(payload.tag) === entry) toasts.delete(payload.tag); layoutToasts(); });
-  entry.timer = setTimeout(() => closeToast(payload.tag), 14000);
   win.loadFile(TOAST).catch(() => { closeToast(payload.tag); nativeAlert(payload); });
 }
 function bindIPC() {
@@ -90,6 +91,7 @@ function bindIPC() {
     else if (action === 'quit') app.quit();
     else throw Error('Ação de janela inválida.');
   });
+  handle('alert:configure', options => {configuredAppearance=toastSettings.appearance(options);});
   handle('alert:show', payload => notify(payload));
   ipcMain.on('document:dirty',(event,value) => { guard(event); dirty = value === true; });
   for (const [channel,open] of [['toast:open',true],['toast:dismiss',false]]) ipcMain.on(channel,event => {

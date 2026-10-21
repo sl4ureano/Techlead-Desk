@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('desktop', {
   info: () => ipcRenderer.invoke('app:info'),
   windowAction: action => ipcRenderer.invoke('window:action', action),
   setDirty: dirty => ipcRenderer.send('document:dirty', dirty),
+  configureAlerts: options => ipcRenderer.invoke('alert:configure', options),
   notify: payload => ipcRenderer.invoke('alert:show', payload),
   onCommand: subscribe('app:command'),
   onReminder: subscribe('alert:open'),

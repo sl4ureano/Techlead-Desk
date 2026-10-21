@@ -16,3 +16,5 @@ body.desktop-app{padding-top:var(--desktop-chrome);background:#f5f7fb}
 }
 
 .desktop-wordmark>.desktop-mark{border:0;padding:0;cursor:pointer;-webkit-app-region:no-drag}.desktop-wordmark>.desktop-mark:hover{background:#3b5985;filter:none}
+
+#reminder-appearance-help{grid-column:1/-1;margin:0;font-size:11px;line-height:1.5}.reminder-options label:has(#reminder-position),.reminder-options label:has(#reminder-duration){display:grid;gap:7px;align-items:start}.reminder-options #reminder-position,.reminder-options #reminder-duration{width:100%;min-width:0;font-size:12px}

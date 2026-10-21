@@ -24,6 +24,7 @@ Para desenvolvimento, `npm run dev` libera as ferramentas do Chromium no menu Vi
 - Cartões desktop no canto inferior direito, com título, contexto, horário e ação **Ver no Desk**. Até três ficam visíveis; os anteriores continuam na central interna de alertas.
 - Fechar a janela oculta o aplicativo na bandeja quando ela está disponível. Os alertas continuam ativos. Para encerrar, use **Sair** na bandeja ou `Ctrl+Q`/`Cmd+Q`.
 - Se a bandeja não puder ser criada, o botão fechar encerra o aplicativo. Nenhum processo invisível é mantido nessa situação.
+- Nas preferências de alertas, escolha centro, canto superior/inferior direito ou canto superior/inferior esquerdo. Ajuste o tempo de cada cartão entre 3 e 120 segundos. O teste aplica as escolhas ainda não salvas; Salvar preferências grava tudo no JSON. No modo de notificações nativas, posição e duração são definidas pelo sistema operacional.
 - Som, toque, volume e antecedência continuam nas preferências do seu JSON. Ative os alertas depois de abrir o arquivo. O teste do cartão também está no menu nativo **Alertas**.
 - Sem conta, servidor ou sincronização. As únicas preferências separadas do JSON são o tamanho e o estado da janela, no diretório de configuração do aplicativo.
 
