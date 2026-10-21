@@ -1,14 +1,14 @@
 {
   "name": "techlead-desk",
   "version": "1.3.0",
-  "description": "Seu espaço de trabalho no navegador e no desktop.",
+  "description": "Seu espa\u00e7o de trabalho no navegador e no desktop.",
   "author": "Adriano Laureano",
   "private": true,
   "type": "module",
   "main": "desktop/main.cjs",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --dev",
+    "start": "electron ./desktop/main.cjs",
+    "dev": "electron ./desktop/main.cjs --dev",
     "test": "node --test tests/*.test.js",
     "test:desktop": "node --test tests/desktop*.test.js",
     "pack": "electron-builder --dir",

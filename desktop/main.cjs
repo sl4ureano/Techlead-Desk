@@ -9,6 +9,9 @@ const {FileService} = require('./file-service.cjs');
 const toastSettings = require('./notification-settings.cjs');
 let configuredAppearance = {...toastSettings.DEFAULTS};
 const ROOT = path.join(__dirname, '..');
+const metadata = require('../package.json');
+// Explicit entry avoids Node resolving a sibling JSON before the project folder.
+if(process.defaultApp){app.setAppPath(ROOT);app.setName(metadata.name);}
 const INDEX = path.join(ROOT, 'index.html');
 const TOAST = path.join(__dirname, 'notification.html');
 let splash, splashStarted = 0;
@@ -86,7 +89,7 @@ function bindIPC() {
   handle('file:create', () => pick(true));
   handle('file:read', token => files.read(token));
   handle('file:write', (token, text) => files.write(token,text));
-  handle('app:info', () => ({version:app.getVersion(),platform:process.platform,tray:!!tray,notifications:process.argv.includes('--native-notifications')?'native':'cards'}));
+  handle('app:info', () => ({version:metadata.version,platform:process.platform,tray:!!tray,notifications:process.argv.includes('--native-notifications')?'native':'cards'}));
   handle('window:action', action => {
     if (action === 'menu') Menu.getApplicationMenu()?.popup({window:main});
     else if (action === 'minimize') main.minimize();

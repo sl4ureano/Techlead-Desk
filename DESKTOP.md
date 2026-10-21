@@ -84,3 +84,7 @@ A entrada compartilhada `app.js` detecta a ponte segura do Electron e inicializa
 Cada inicialização do processo exibe um splash animado por pelo menos 1,6 segundo, enquanto a janela principal carrega. Restaurar a janela pela bandeja não repete a abertura. A animação respeita a preferência de movimento reduzido do sistema.
 
 Os modais de edição, confirmação, prévia de anexos e alertas mantêm título e botão de fechar fora da área de rolagem. Somente o conteúdo interno rola; os botões de rodapé dos formulários permanecem acessíveis.
+
+### Erro ao iniciar com um JSON ao lado da pasta
+
+Se existir um arquivo como `techlead-desk.json` ao lado da pasta `techlead-desk`, a resolução de `electron .` pode tentar executar esse JSON. Os comandos `npm start` e `npm run dev` agora apontam explicitamente para `desktop/main.cjs`. Atualize o projeto com `git pull` e rode `npm start`. Para executar diretamente: `npx electron ./desktop/main.cjs`. Seu JSON de dados permanece separado e deve ser aberto pela interface.
