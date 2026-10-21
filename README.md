@@ -1,3 +1,14 @@
+# Edição desktop — branch `electron`
+
+Esta branch contém a versão Electron do Techlead Desk. Veja **[DESKTOP.md](DESKTOP.md)** para rodar, testar e gerar instaladores. A versão web continua na branch `main`.
+
+```bash
+npm ci
+npm start
+```
+
+---
+
 # Feedbacks
 
 A área **Feedbacks** reúne **A compartilhar**, **Recebidos** e **Todos**. Registre pessoa, relação (Time, PM, PA, Liderança ou Outra pessoa), assunto, data da conversa, contexto, comportamento e impacto, próximo passo e data/hora de acompanhamento.
@@ -322,3 +333,4 @@ Os horários são opcionais, em HH:MM, e exigem a data correspondente. Arquivos 
 Na Agenda & prioridades, tarefas e revisões aparecem no dia correspondente, com horário explícito e identificação do tipo, inclusive no mês/semana/dia. No painel lateral ficam em Tarefas e revisões. Os itens com hora são ordenados cronologicamente junto dos compromissos; os sem hora ficam depois. Esses marcos não possuem duração presumida e não viram reuniões no calendário remoto. A hora da decisão é apenas a informação de quando ela foi tomada; a revisão é o marco que aparece na agenda.
 
 Em Alertas, a opção **Tarefas e revisões com horário** controla as três fontes. Com alertas ativados, há aviso antes e no horário do prazo ou revisão, respeitando a antecedência configurada. As mensagens distinguem prazo de tarefa e revisão. Tarefas concluídas e assuntos resolvidos não geram alertas. A revisão da decisão continua ativa até você alterar/remover sua data/hora. Limitações de aba aberta, áudio, permissão e suspensão do navegador continuam aplicáveis.
+

@@ -1,1 +1,81 @@
-{"name":"techlead-desk","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.js"}}
+{
+  "name": "techlead-desk",
+  "version": "1.0.0",
+  "description": "Seu espaço de trabalho, agora no desktop.",
+  "author": "Adriano Laureano",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test": "node --test tests/*.test.js",
+    "test:desktop": "node --test tests/desktop*.test.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "test:electron": "node tests/electron-smoke.cjs"
+  },
+  "devDependencies": {
+    "electron": "44.9.2",
+    "electron-builder": "26.15.3",
+    "playwright": "1.62.1"
+  },
+  "build": {
+    "appId": "com.slaureano.techleaddesk",
+    "productName": "Techlead Desk",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "desktop/**",
+      "*.js",
+      "index.html",
+      "styles.css",
+      "package.json",
+      "!tests/**"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Office",
+      "icon": "desktop/icon.png",
+      "maintainer": "Adriano Laureano",
+      "desktop": {
+        "entry": {
+          "Name": "Techlead Desk",
+          "StartupWMClass": "techlead-desk"
+        }
+      },
+      "syncDesktopName": true
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "desktop/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "desktop/icon.png"
+    }
+  },
+  "homepage": "https://github.com/sl4ureano/Techlead-Desk",
+  "desktopName": "techlead-desk.desktop",
+  "engines": {
+    "node": ">=22"
+  }
+}

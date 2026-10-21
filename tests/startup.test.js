@@ -13,7 +13,7 @@ const source=(await readFile(new URL('../app.js',import.meta.url),'utf8')).repla
 function setup({support=true,openError=null,content=null,writeFail=false}={}){
  const selectors=['#reminder-toasts','#reminders-button','#reminders-dialog','#fields','#fields input','#dialog-title','#form-error','#welcome','#app','#main','#save-status','#error','#filename','#welcome-error','#open','#create','#save','#menu','#yes','#no','#confirm','#confirm-text','#edit-form','#editor','#preview','#preview-image','#close-preview','nav'];const elements=Object.fromEntries(selectors.map(s=>[s,{hidden:s==='#app'||s==='#error',inert:s==='#app',disabled:false,textContent:'',innerHTML:'',focus(){},setAttribute(){},classList:{remove(){},add(){}},showModal(){},close(){},removeAttribute(){}}]));
  let disk=content;const listeners={},reads=[];const handle={name:'desk.json',requestPermission:async()=> 'granted',getFile:async()=>({text:async()=>disk}),createWritable:async()=>{if(writeFail)throw Error('Permission denied');let buffer;return {write:async s=>buffer=s,close:async()=>disk=buffer,abort:async()=>{}};}};
- const window={setInterval:()=>1,isSecureContext:support,addEventListener:(name,fn)=>listeners[name]=fn,showOpenFilePicker:support?async()=>{if(openError)throw openError;return [handle];}:undefined,showSaveFilePicker:support?async()=>handle:undefined};
+ const window={scrollTo(){},setInterval:()=>1,isSecureContext:support,addEventListener:(name,fn)=>listeners[name]=fn,showOpenFilePicker:support?async()=>{if(openError)throw openError;return [handle];}:undefined,showSaveFilePicker:support?async()=>handle:undefined};
  const document={querySelector:s=>elements[s]||null,querySelectorAll:()=>[],addEventListener(){},body:{classList:{remove(){},toggle(){},contains(){return false;}}}};
  class Reader{readAsDataURL(f){reads.push(f.name);queueMicrotask(()=>{if(f.fail){this.onerror();return;}this.result='data:'+f.type+';base64,'+f.base64;this.onload();});}}
  const context=vm.createContext({window,document,FileStore,today,attachmentError,mergeEvents,overlaps,parseICS,migrateLegacyDecisions,ReminderEngine,reminderSettings,reminderCandidates,periodFor,movePeriod,visibleDays,itemsForDay,taskBucket,topicBucket,decisionBucket,rankTasks,taskGroups,topicGroups,Intl,Date,crypto:globalThis.crypto,URL,Blob,setTimeout,FormData,FileReader:Reader});vm.runInContext(source,context);return {elements,listeners,reads,context,run:s=>vm.runInContext(s,context),disk:()=>disk};
@@ -100,7 +100,7 @@ test('sound selector previews unsaved choice and persists selection in JSON',asy
  const x=setup();await x.elements['#create'].onclick();
  const html=x.run('reminderPanel()');
  for(const title of ['Alerta clássico','Campainha','Alerta insistente','Chamada crescente','Toque digital'])assert(html.includes(title));
- for(const selector of ['#close-reminders','#permit-notifications','#test-reminder-sound','#reminder-settings','#reminder-sound'])x.elements[selector]={value:'digital'};
+ for(const selector of ['#close-reminders','#permit-notifications','#test-reminder-sound','#test-desktop-notification','#reminder-volume','#reminder-volume-value','#reminder-settings','#reminder-sound'])x.elements[selector]={value:'digital'};
  x.run("bindReminderPanel();playReminderSound=async key=>{globalThis.previewKey=key}");
  await x.elements['#test-reminder-sound'].onclick();
  assert.equal(x.context.previewKey,'digital');
@@ -162,3 +162,4 @@ test('task can link to feedback and reopen without copying or changing it',async
  const reopened=setup({content:x.disk()});await reopened.elements['#open'].onclick();
  assert.equal(reopened.run('data().tasks[0].feedbackId'),'f');
 });
+
