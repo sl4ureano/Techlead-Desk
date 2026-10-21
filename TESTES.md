@@ -130,3 +130,13 @@ Os mesmos 69 testes passaram após a mudança de apresentação. A estrutura man
 Quatro testes adicionais passaram: gravação/reabertura em disco de status em andamento e vínculo; botões explícitos sem checkbox e transições aberto → andamento → concluído → aberto, com histórico e sem alterar o assunto; links nos dois sentidos e transferência/desvinculação preservando dados; criação a partir de um assunto e associação de tarefa existente sem duplicar registros.
 
 Total atual: 73 testes aprovados. A interface é executada em DOM simulado; inspeção visual e cliques nativos no navegador ainda pendentes.
+
+## Base unificada (1.3.0)
+
+`npm test`: validação, persistência e regras de negócio compartilhadas.
+
+`npm run build:web` e `npm run test:web`: teste Playwright no Chromium tanto via HTTP quanto no HTML único em `file://`. Verifica splash, criação de tarefa, conteúdo do JSON, cabeçalho fixo, prévia de alerta com posição e duração, cancelamento de troca de arquivo, reabertura e navegação no topo. Somente o seletor nativo é substituído por um adaptador em memória; os testes de persistência unitários usam disco real. `npx playwright install chromium` instala o navegador de teste.
+
+`npm run test:electron`: aplicação Electron real com IPC, seletores substituídos para automação, arquivo real em disco, backup, janela de alerta, geometria, duração e preferências.
+
+Em hosts sem Chromium de teste, `TECHLEAD_WEB_ELECTRON=1 npm run test:web` usa uma janela Chromium do Electron sem preload ou ponte nativa. A CI usa o Chromium independente para a validação web.

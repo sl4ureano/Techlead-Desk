@@ -1,11 +1,46 @@
-# Edição desktop — branch `electron`
+# Techlead Desk · Web e Electron
 
-Esta branch contém a versão Electron do Techlead Desk. Veja **[DESKTOP.md](DESKTOP.md)** para rodar, testar e gerar instaladores. A versão web continua na branch `main`.
+Uma única base na branch `main`: use no navegador ou gere um aplicativo Electron. Tarefas, assuntos, feedbacks, agenda, notas, anexos, visual, modais e preferências compartilham o mesmo código e o mesmo JSON local. Não é necessário trocar de branch para mudar de ambiente.
+
+## Usar no navegador, sem instalar o aplicativo
+
+Com Python 3, execute `iniciar.sh` (Linux/macOS) ou `iniciar.bat` (Windows) e abra **http://localhost:8080** no Chrome ou Edge. Também pode executar:
+
+```bash
+python3 -m http.server 8080 --bind 127.0.0.1
+```
+
+Não precisa instalar Node nem dependências para usar a versão web. Para levar tudo em um único HTML:
+
+```bash
+python3 unificar.py -o dist/techlead-desk-unico.html
+```
+
+Abra `dist/techlead-desk-unico.html` no Chrome/Edge, inclusive por duplo clique. Ele incorpora scripts, estilos e splash; seu arquivo JSON de dados continua separado. Para servir os módulos originais, use localhost ou HTTPS.
+
+## Rodar ou gerar o aplicativo
+
+Com Node.js 22 ou mais recente:
 
 ```bash
 npm ci
-npm start
+npm start          # Electron
+npm run dist:linux # Linux: AppImage e .deb
+npm run dist:mac   # macOS: .dmg, executar no macOS
+npm run dist:win   # Windows: .exe, executar no Windows
 ```
+
+Veja [DESKTOP.md](DESKTOP.md) para detalhes. Atalhos adicionais: `npm run start:web`, `npm run build:web`, `npm test`, `npm run test:web` e `npm run test:electron`.
+
+## Recursos compartilhados e diferenças do ambiente
+
+- Splash animado ao abrir, cabeçalhos dos modais fixos, navegação sempre no topo, menu de ações e menu **Arquivo → Trocar arquivo**.
+- Sons, volume, antecedência, posição e duração dos avisos ficam no mesmo JSON, compatível entre os dois modos.
+- Na web, posição e duração controlam os avisos dentro da página. As notificações do Chrome dependem de permissão; sua apresentação é controlada pelo navegador/sistema. Mantenha a aba aberta; avisos em segundo plano podem atrasar.
+- No Electron, os cartões aparecem sobre a área de trabalho e o aplicativo pode continuar na bandeja. Use **Arquivo → Sair do aplicativo** para encerrar. Seletores nativos e backup `.bak` continuam disponíveis.
+- Abra seu JSON explicitamente em cada sessão. Evite editar o mesmo arquivo simultaneamente no navegador e no aplicativo.
+
+A integração contínua testa a versão web e o Electron e disponibiliza o HTML único e os instaladores em **Artifacts**. O restante deste documento registra os recursos e a evolução do projeto.
 
 ---
 

@@ -1,6 +1,6 @@
 import {nativeHandle} from './file-adapter.js';
+export function initializeDesktop(){
 const api = window.desktop;
-if (!api) throw Error('Inicie esta versão com npm start.');
 document.body.classList.add('desktop-app');
 window.showOpenFilePicker = async () => [nativeHandle(api, await api.fileOpen())];
 window.showSaveFilePicker = async () => nativeHandle(api, await api.fileCreate());
@@ -13,22 +13,7 @@ document.querySelector('#desktop-app-menu').onclick = () => api.windowAction('me
 for (const action of ['minimize','maximize','close']) document.querySelector('#desktop-'+action).onclick = () => api.windowAction(action);
 titlebar.ondblclick = event => { if (!event.target.closest('button')) api.windowAction('maximize'); };
 api.onWindowState(({maximized}) => { document.querySelector('#desktop-maximize').title=maximized?'Restaurar janela':'Maximizar janela'; });
-const info = await api.info();
-document.querySelector('#desktop-close').title = info.tray?'Ocultar na bandeja — alertas continuam ativos':'Fechar aplicativo';
-const privacy = document.querySelector('.welcome-card>small');
-if (privacy) privacy.innerHTML = 'Seu JSON continua com você.<br>Sem conta. Sem nuvem. Sem distrações.';
-const welcomeBrand = document.querySelector('.welcome-card .eyebrow');
-if (welcomeBrand) welcomeBrand.textContent = 'SEU DESK, AGORA NO DESKTOP';
-const asideFoot = document.querySelector('.aside-foot');
-if (asideFoot) {
-  const status=document.createElement('div');status.className='desktop-local-status';
-  const dot=document.createElement('span');const text=document.createElement('span');text.textContent='Local e privado';status.append(dot,text);
-  asideFoot.prepend(status);
-}
-const desktopFooter = document.createElement('div');desktopFooter.className='desktop-welcome-footer';
-desktopFooter.innerHTML='<span>⌘ / Ctrl + O <small>Abrir arquivo</small></span><span>⌘ / Ctrl + N <small>Novo espaço</small></span>';
-document.querySelector('.welcome-card').append(desktopFooter);
-await import('../app.js');
+api.info().then(info=>{document.querySelector('#desktop-close').title=info.tray?'Ocultar na bandeja — alertas continuam ativos':'Fechar aplicativo';}).catch(()=>{});
 api.onCommand(command => {
   if(command==='reminders') { if(!document.querySelector('#app').hidden) document.querySelector('#reminders-button').click(); }
   else document.querySelector('#'+({open:'open',create:'create',save:'save'}[command]||'open')).click();
@@ -38,3 +23,5 @@ api.onReminder(tag => {
   if(button) button.click();
   else if(!document.querySelector('#app').hidden) document.querySelector('#reminders-button').click();
 });
+
+}

@@ -1,6 +1,6 @@
 # Techlead Desk · Desktop
 
-A edição Electron vive na branch `electron`. Ela mantém tarefas, assuntos, feedbacks, agenda, notas, anexos e o mesmo formato JSON da versão web.
+A edição Electron compartilha a branch `main` e a mesma entrada `app.js` da versão web. Ela mantém tarefas, assuntos, feedbacks, agenda, notas, anexos e o mesmo formato JSON da versão web.
 
 ## Rodar no seu computador
 
@@ -8,7 +8,7 @@ Instale Node.js 22 ou mais recente. Na cópia do repositório:
 
 ```bash
 git fetch origin
-git switch electron
+git switch main
 npm ci
 npm start
 ```
@@ -50,7 +50,7 @@ npm run dist:win    # instalador NSIS (.exe), executar no Windows
 npm run dist:mac    # .dmg, executar no macOS
 ```
 
-As saídas ficam em `release/`. O workflow **Desktop builds** executa testes e cria os pacotes nos três sistemas a cada push nessa branch. Baixe os arquivos na seção **Artifacts** da execução no GitHub Actions.
+As saídas ficam em `release/`. O workflow **Desktop builds** executa testes e cria os pacotes nos três sistemas a cada push em `main` ou `electron`. Baixe os arquivos na seção **Artifacts** da execução no GitHub Actions.
 
 Os pacotes deste projeto não têm assinatura de distribuição ou notarização configurada. Assinatura Windows/macOS e publicação de atualizações automáticas precisam de certificados próprios e não estão habilitadas. Não são necessários para desenvolver e testar localmente.
 
@@ -77,7 +77,7 @@ xvfb-run -a npm run test:electron
 
 O runner usa um diretório temporário e simula somente a escolha dos caminhos nos diálogos; a leitura, escrita, IPC, renderização e janelas de alerta são reais. A bandeja e a apresentação sobre outros aplicativos precisam ser conferidas em uma sessão desktop do sistema alvo.
 
-A versão desktop tem uma entrada própria no HTML. O script `unificar.py` permanece como referência da versão web; o resultado de distribuição dessa branch são os pacotes Electron, não um HTML único.
+A entrada compartilhada `app.js` detecta a ponte segura do Electron e inicializa apenas nesse ambiente os seletores e controles nativos. No navegador ela usa a File System Access API. `python3 unificar.py -o dist/techlead-desk-unico.html` gera a versão web independente, com o mesmo visual e recursos compartilhados.
 
 ### Abertura e modais (1.2.0)
 

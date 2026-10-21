@@ -1,7 +1,7 @@
 {
   "name": "techlead-desk",
-  "version": "1.2.0",
-  "description": "Seu espaço de trabalho, agora no desktop.",
+  "version": "1.3.0",
+  "description": "Seu espaço de trabalho no navegador e no desktop.",
   "author": "Adriano Laureano",
   "private": true,
   "type": "module",
@@ -16,7 +16,10 @@
     "dist:linux": "electron-builder --linux",
     "dist:win": "electron-builder --win",
     "dist:mac": "electron-builder --mac",
-    "test:electron": "node tests/electron-smoke.cjs"
+    "test:electron": "node tests/electron-smoke.cjs",
+    "start:web": "python3 -m http.server 8080 --bind 127.0.0.1",
+    "build:web": "python3 unificar.py -o dist/techlead-desk-unico.html",
+    "test:web": "node tests/web-smoke.cjs"
   },
   "devDependencies": {
     "electron": "44.9.2",

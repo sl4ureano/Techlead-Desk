@@ -114,10 +114,11 @@ def main():
         return '<script defer src="data:text/javascript;base64,' + encoded + '"></script>'
 
     html = SCRIPT.sub(javascript, html)
+    html = html.replace("script-src 'self'", "script-src 'self' data:")
     if script_count != 1 or css_count < 1:
         raise ValueError('Não foram encontrados a entrada JS e o CSS esperados.')
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(html, encoding='utf-8')
+    output.write_text(html.rstrip()+'\n', encoding='utf-8')
     print(f'Gerado: {output} ({output.stat().st_size:,} bytes)')
     print(f'Incorporados: {len(modules)} módulos JavaScript e {css_count} CSS.')
     print('Abra o HTML no Chrome/Edge. O JSON de dados continua separado.')

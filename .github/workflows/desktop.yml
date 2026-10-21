@@ -1,9 +1,9 @@
 name: Desktop builds
 on:
   push:
-    branches: [electron]
+    branches: [main, electron]
   pull_request:
-    branches: [electron]
+    branches: [main, electron]
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,6 +22,21 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Build standalone web app
+        if: runner.os == 'Linux'
+        run: npm run build:web
+      - name: Install browser for web tests
+        if: runner.os == 'Linux'
+        run: npx playwright install --with-deps chromium
+      - name: Test browser and standalone HTML
+        if: runner.os == 'Linux'
+        run: npm run test:web
+      - uses: actions/upload-artifact@v4
+        if: runner.os == 'Linux'
+        with:
+          name: Techlead-Desk-Web
+          path: dist/techlead-desk-unico.html
+          if-no-files-found: error
       - name: Test Electron window
         if: runner.os == 'Linux'
         run: xvfb-run -a npm run test:electron

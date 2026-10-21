@@ -109,6 +109,11 @@ const {_electron} = require('playwright');
     await page.locator('#reminders-button').click();
     assert.equal(await page.locator('#reminder-position').inputValue(),'top-left');
     assert.equal(await page.locator('#reminder-duration').inputValue(),'8');
+    await page.locator('#close-reminders').click();
+    await page.locator('.file-actions summary').click();
+    const exited=desktop.waitForEvent('close',{timeout:10000});
+    await page.locator('#quit-app').click().catch(error=>{if(!page.isClosed())throw error;});
+    await exited;desktop=null;
     // A closed event can arrive just after click; no renderer error is acceptable.
     assert.deepEqual(errors,[]);
     console.log('PASS Electron: renderer isolado, criar JSON, tarefa, backup, concluir, navegação, cartão desktop, posição central, tempo de 3s e preferências reabertas.');
