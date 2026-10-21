@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';
+import {mkdtemp,mkdir,writeFile,readFile,realpath,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {createRequire} from 'node:module';
@@ -18,7 +18,8 @@ test('start and dev resolve the application entry when a sibling JSON shares the
    const entry=metadata.scripts[script].split(/\s+/)[1];
    assert.equal(entry,'desktop/launch.cjs');
    const application=path.join(root,'desktop',path.basename(launchArgs([],'linux',{DISPLAY:':0'})[0]));
-   assert.equal(require.resolve(application),path.join(root,'desktop/main.cjs'));
+   // Node resolves symlinks; macOS /var commonly aliases /private/var.
+   assert.equal(require.resolve(application),await realpath(path.join(root,'desktop/main.cjs')));
   }
   assert.equal(await readFile(data,'utf8'),'{"tasks":[]}');
  }finally{await rm(dir,{recursive:true,force:true});}
