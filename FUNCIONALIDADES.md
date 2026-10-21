@@ -69,6 +69,7 @@ Desenhe uma visão simples dos componentes e das integrações de uma aplicaçã
 - Crie vários projetos de arquitetura, cada um com nome, descrição e desenho próprios.
 - Adicione aplicações/serviços, bancos de dados, filas/eventos, pessoas/clientes e sistemas externos.
 - Arraste os componentes ou mova o componente selecionado com as setas do teclado.
+- Consulte e edite o componente selecionado no painel abaixo do desenho, deixando mais espaço para o canvas.
 - Edite o nome, o tipo, a tecnologia e o contexto de cada componente.
 - Conecte origem e destino e descreva a comunicação, por exemplo **HTTPS**, **SQL** ou **publica evento**.
 - Edite ou exclua componentes e conexões. Ao excluir um componente, suas conexões são removidas e os comentários são preservados no projeto.
