@@ -114,6 +114,7 @@ function buildMenu() {
     {label:'Alertas',submenu:[{label:'Preferências de alertas',click:()=>command('reminders')},{label:'Testar cartão desktop',click:()=>notify({title:'Tudo pronto para o próximo passo.',body:'Seus alertas aparecem aqui, mesmo com o Desk minimizado.',tag:'desktop-demo'})}]}
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  if(process.platform!=='darwin') main.setMenuBarVisibility(false);
   if (process.argv.includes('--no-tray')) return;
   try {
     let trayIcon = icon().resize({width:22,height:22});

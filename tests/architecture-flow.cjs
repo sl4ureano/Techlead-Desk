@@ -4,8 +4,13 @@ module.exports=async function architectureFlow(page,{taskTitle,screenshotPath}={
  await page.locator('#arch-create').click();await page.locator('#architecture-dialog [name="title"]').fill('Arquitetura de pedidos');await page.locator('#architecture-dialog [name="description"]').fill('Aplicação, persistência e contexto de integração.');
  if(taskTitle)await page.locator('#architecture-dialog [name="taskId"]').selectOption({label:taskTitle});
  await page.locator('#architecture-dialog button[type="submit"]').click();
- await page.locator('#arch-add').click();await page.locator('#arch-item-edit').click();await page.locator('#architecture-dialog [name="label"]').fill('API de pedidos');await page.locator('#architecture-dialog [name="technology"]').fill('Node.js');await page.locator('#architecture-dialog button[type="submit"]').click();
- await page.locator('#arch-node-type').selectOption('database');await page.locator('#arch-add').click();await page.locator('#arch-item-edit').click();await page.locator('#architecture-dialog [name="label"]').fill('Pedidos');await page.locator('#architecture-dialog [name="technology"]').fill('PostgreSQL');await page.locator('#architecture-dialog button[type="submit"]').click();
+ await page.locator('[data-component="service"]').click();await page.locator('#arch-item-edit').click();await page.locator('#architecture-dialog [name="label"]').fill('API de pedidos');await page.locator('#architecture-dialog [name="technology"]').fill('Node.js');await page.locator('#architecture-dialog button[type="submit"]').click();
+ await page.locator('[data-component="database"]').click();await page.locator('#arch-item-edit').click();await page.locator('#architecture-dialog [name="label"]').fill('Pedidos');await page.locator('#architecture-dialog [name="technology"]').fill('PostgreSQL');await page.locator('#architecture-dialog button[type="submit"]').click();
+ await page.locator('[data-library="AWS"]').click();await page.locator('#arch-search').fill('Lambda');
+ assert(await page.locator('[data-component]').count()>0);
+ await page.locator('[data-component]').first().click();assert.equal(await page.locator('[data-node]').count(),3);
+ await page.locator('#arch-item-delete').click();await page.locator('#yes').click();
+ await page.locator('[data-library="Básicos"]').click();await page.locator('#arch-search').fill('');
  assert.equal(await page.locator('[data-node]').count(),2);
  await page.locator('#arch-connect').click();await page.locator('[data-node]').first().click();await page.locator('[data-node]').nth(1).click();assert.equal(await page.locator('[data-edge]').count(),1);
  await page.locator('#arch-item-edit').click();await page.locator('#architecture-dialog [name="label"]').fill('SQL');await page.locator('#architecture-dialog button[type="submit"]').click();
