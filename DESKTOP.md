@@ -50,7 +50,7 @@ npm run dist:win    # instalador NSIS (.exe), executar no Windows
 npm run dist:mac    # .dmg, executar no macOS
 ```
 
-As saídas ficam em `release/`. O workflow **Desktop builds** executa testes e cria os pacotes nos três sistemas a cada push em `main` ou `electron`. Baixe os arquivos na seção **Artifacts** da execução no GitHub Actions.
+As saídas ficam em `release/`. O workflow **Desktop builds** executa testes e cria os pacotes nos três sistemas a cada push na branch `main`. Baixe os arquivos na seção **Artifacts** da execução no GitHub Actions.
 
 Os pacotes deste projeto não têm assinatura de distribuição ou notarização configurada. Assinatura Windows/macOS e publicação de atualizações automáticas precisam de certificados próprios e não estão habilitadas. Não são necessários para desenvolver e testar localmente.
 

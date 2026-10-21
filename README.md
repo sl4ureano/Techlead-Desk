@@ -2,6 +2,21 @@
 
 Uma única base na branch `main`: use no navegador ou gere um aplicativo Electron. Tarefas, assuntos, feedbacks, agenda, notas, anexos, visual, modais e preferências compartilham o mesmo código e o mesmo JSON local. Não é necessário trocar de branch para mudar de ambiente.
 
+## Início rápido
+
+Use sempre a branch `main`, que reúne todos os ajustes antes feitos na branch `electron`.
+
+| Objetivo | Comando |
+| --- | --- |
+| Abrir no navegador | `sh iniciar.sh` (Linux/macOS) ou `iniciar.bat` (Windows) |
+| Gerar um HTML único | `python3 unificar.py -o dist/techlead-desk-unico.html` ou `npm run build:web` |
+| Rodar no Electron | `npm ci` e depois `npm start` |
+| Gerar aplicativo Linux | `npm run dist:linux` |
+| Gerar aplicativo macOS | `npm run dist:mac` (no macOS) |
+| Gerar aplicativo Windows | `npm run dist:win` (no Windows) |
+
+Os comandos `npm` precisam de Node.js 22+ e, antes do primeiro uso, `npm ci`. Para os comandos web via Python, basta Python 3. Os aplicativos gerados ficam em `release/`; o HTML único fica em `dist/`. Web e Electron abrem o mesmo formato de arquivo JSON.
+
 ## Usar no navegador, sem instalar o aplicativo
 
 Com Python 3, execute `iniciar.sh` (Linux/macOS) ou `iniciar.bat` (Windows) e abra **http://localhost:8080** no Chrome ou Edge. Também pode executar:

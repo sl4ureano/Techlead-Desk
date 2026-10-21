@@ -1,9 +1,9 @@
 name: Desktop builds
 on:
   push:
-    branches: [main, electron]
+    branches: [main]
   pull_request:
-    branches: [main, electron]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
