@@ -87,4 +87,8 @@ Os modais de edição, confirmação, prévia de anexos e alertas mantêm títul
 
 ### Erro ao iniciar com um JSON ao lado da pasta
 
-Se existir um arquivo como `techlead-desk.json` ao lado da pasta `techlead-desk`, a resolução de `electron .` pode tentar executar esse JSON. Os comandos `npm start` e `npm run dev` agora apontam explicitamente para `desktop/main.cjs`. Atualize o projeto com `git pull` e rode `npm start`. Para executar diretamente: `npx electron ./desktop/main.cjs`. Seu JSON de dados permanece separado e deve ser aberto pela interface.
+Se existir um arquivo como `techlead-desk.json` ao lado da pasta `techlead-desk`, a resolução de `electron .` pode tentar executar esse JSON. Os comandos `npm start` e `npm run dev` usam um launcher que aponta explicitamente para `desktop/main.cjs`. Atualize o projeto com `git pull` e rode `npm start`. Para executar diretamente: `npx electron ./desktop/main.cjs`. Seu JSON de dados permanece separado e deve ser aberto pela interface.
+
+### Inicialização no Ubuntu / Wayland
+
+O launcher de `npm start` seleciona `--ozone-platform=x11` antes de iniciar o Electron quando há `DISPLAY` no Linux, evitando depender de um reinício automático. macOS e Windows continuam com seu backend padrão. Parâmetros explícitos são preservados. Para diagnóstico: `npm start -- --enable-logging=stderr`.
