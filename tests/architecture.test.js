@@ -33,3 +33,15 @@ test('architecture CRUD, links and comments survive a real JSON save and reopen'
  const handle={name:'desk.json',getFile:async()=>({text:async()=>readFile(file,'utf8')}),createWritable:async()=>{let text;return{write:async value=>{text=value;},close:async()=>writeFile(file,text),abort:async()=>{}};}};
  try{const store=new FileStore();await store.create(handle);const p=createArchitecture('Projeto','Contexto','topic-1','task-1');const component=addArchitectureNode(p,'actor');p.comments.push({id:'comment-disk',text:'Contexto inicial',at:new Date().toISOString(),nodeId:component.id});store.data.architectures.push(p);await store.change();p.title='Projeto revisado';p.comments[0].text='Contexto revisado';p.nodes[0].x=250;await store.change();const reopened=new FileStore();await reopened.open(handle);assert.equal(reopened.data.architectures[0].title,'Projeto revisado');assert.equal(reopened.data.architectures[0].taskId,'task-1');assert.equal(reopened.data.architectures[0].topicId,'topic-1');assert.equal(reopened.data.architectures[0].comments[0].text,'Contexto revisado');assert.equal(reopened.data.architectures[0].nodes[0].x,250);reopened.data.architectures=[];await reopened.change();assert.equal(JSON.parse(await readFile(file,'utf8')).architectures.length,0);}finally{await rm(dir,{recursive:true,force:true});}
 });
+
+test('AWS catalog components retain their type and embedded icon after JSON roundtrip',async()=>{
+ const {architectureComponents}=await import('../architecture-model.js');
+ const aws=architectureComponents.filter(c=>c.id.startsWith('aws-'));
+ assert.equal(aws.length,872);
+ assert.equal(new Set(aws.map(c=>c.id)).size,aws.length);
+ for(const component of architectureComponents){
+  const p=createArchitecture('Catálogo');const n=addArchitectureNode(p,component.id);
+  validateArchitectures(JSON.parse(JSON.stringify([p])));
+  const svg=architectureSVG(p);assert(svg.includes('data:image/'));assert(!svg.includes('undefined'));
+ }
+});

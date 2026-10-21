@@ -135,3 +135,9 @@ Configure os avisos da rotina, da agenda e dos registros que têm data e hora.
 Web e Electron usam o mesmo formato de dados. Abra o JSON explicitamente a cada sessão e evite editar o mesmo arquivo nos dois ambientes ao mesmo tempo.
 
 [Como rodar e gerar os artefatos →](README.md)
+
+### Biblioteca visual de arquitetura
+
+O editor oferece uma paleta lateral com prévias, busca por nome e categoria, grupos recolhíveis e adição com um clique. Inclui 23 componentes básicos e 872 ícones AWS, incluindo serviços, recursos e grupos do catálogo AWS Icons for PlantUML v23.1. Os ícones são incorporados ao aplicativo e ao SVG exportado, permitindo uso offline no navegador, HTML único e desktop.
+
+Fonte dos ícones: [AWS Icons for PlantUML](https://github.com/awslabs/aws-icons-for-plantuml), © Amazon Web Services, CC-BY-ND-2.0. Licença em [docs/aws-icons-LICENSE](docs/aws-icons-LICENSE). Os arquivos gráficos originais foram preservados.
