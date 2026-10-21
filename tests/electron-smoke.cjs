@@ -51,7 +51,9 @@ const {_electron} = require('playwright');
     assert.equal(corner.box.y,corner.area.y+18);
 
     await toast.screenshot({path:path.join(dir,'notification.png'),timeout:5000});
-    await toast.locator('#dismiss').click();
+    const dismissed=toast.waitForEvent('close',{timeout:5000});
+    await toast.locator('#dismiss').click().catch(error=>{if(!toast.isClosed())throw error;});
+    await dismissed;
     await page.locator('#reminders-button').click();
     await page.locator('#reminder-position').selectOption('center');
     await page.locator('#reminder-duration').fill('3');
