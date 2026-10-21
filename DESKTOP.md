@@ -78,3 +78,9 @@ xvfb-run -a npm run test:electron
 O runner usa um diretório temporário e simula somente a escolha dos caminhos nos diálogos; a leitura, escrita, IPC, renderização e janelas de alerta são reais. A bandeja e a apresentação sobre outros aplicativos precisam ser conferidas em uma sessão desktop do sistema alvo.
 
 A versão desktop tem uma entrada própria no HTML. O script `unificar.py` permanece como referência da versão web; o resultado de distribuição dessa branch são os pacotes Electron, não um HTML único.
+
+### Abertura e modais (1.2.0)
+
+Cada inicialização do processo exibe um splash animado por pelo menos 1,6 segundo, enquanto a janela principal carrega. Restaurar a janela pela bandeja não repete a abertura. A animação respeita a preferência de movimento reduzido do sistema.
+
+Os modais de edição, confirmação, prévia de anexos e alertas mantêm título e botão de fechar fora da área de rolagem. Somente o conteúdo interno rola; os botões de rodapé dos formulários permanecem acessíveis.

@@ -12,7 +12,21 @@ const {_electron} = require('playwright');
   const errors=[];
   try {
     desktop=await _electron.launch({executablePath:electronPath,args:['--no-sandbox','--disable-dev-shm-usage',...(process.env.TECHLEAD_HEADLESS?['--no-tray','--disable-gpu','--ozone-platform=headless']:[]),path.join(__dirname,'electron-smoke-entry.cjs')],env:{...process.env,TECHLEAD_SMOKE_DIR:dir},timeout:30000});
-    const page=await desktop.firstWindow();
+    const splash=await desktop.firstWindow();
+    await splash.locator('.loader').waitFor();
+    if(process.env.TECHLEAD_HEADLESS)await splash.setViewportSize({width:560,height:360});
+    await splash.waitForFunction(()=>innerWidth===560);
+    assert.equal((await splash.locator('body').boundingBox()).width,560);
+    assert.equal(await splash.title(),'Iniciando Techlead Desk');
+    await splash.waitForFunction(()=>Number(getComputedStyle(document.querySelector('main')).opacity)>.99);
+    await splash.screenshot({path:path.join(dir,'splash.png'),timeout:1200});
+    let page;
+    for(let i=0;i<200;i++){
+      page=desktop.windows().find(p=>p.url().endsWith('/index.html'));
+      if(page)break;
+      await new Promise(resolve=>setTimeout(resolve,50));
+    }
+    assert(page,'A janela principal deve abrir após o splash');
     page.on('pageerror',error=>errors.push(error.message));
     await page.locator('.desktop-titlebar').waitFor();
     assert.equal(await page.evaluate(()=>typeof window.require),'undefined');
@@ -54,6 +68,14 @@ const {_electron} = require('playwright');
     const dismissed=toast.waitForEvent('close',{timeout:5000});
     await toast.locator('#dismiss').click().catch(error=>{if(!toast.isClosed())throw error;});
     await dismissed;
+    await page.locator('#reminders-button').click();
+    const header=page.locator('#reminders-dialog .dialog-head');
+    const before=await header.boundingBox();
+    const scrolling=await page.locator('#reminders-dialog .dialog-body').evaluate(el=>{el.scrollTop=el.scrollHeight;return el.scrollTop;});
+    assert(scrolling>0,'O conteúdo do modal deve rolar');
+    assert.deepEqual(await header.boundingBox(),before,'O cabeçalho deve permanecer fixo');
+    await page.screenshot({path:path.join(dir,'modal-scrolled.png'),timeout:5000});
+    await page.locator('#close-reminders').click();
     await page.locator('#reminders-button').click();
     await page.locator('#reminder-position').selectOption('center');
     await page.locator('#reminder-duration').fill('3');

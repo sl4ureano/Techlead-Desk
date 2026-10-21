@@ -11,6 +11,7 @@ let configuredAppearance = {...toastSettings.DEFAULTS};
 const ROOT = path.join(__dirname, '..');
 const INDEX = path.join(ROOT, 'index.html');
 const TOAST = path.join(__dirname, 'notification.html');
+let splash, splashStarted = 0;
 let main, tray, files, quitting = false, dirty = false, dialogBusy = false;
 const toasts = new Map(), nativeNotifications = new Set();
 let windowState = {width:1440, height:940};
@@ -136,8 +137,12 @@ async function createWindow() {
     try { require('node:fs').writeFileSync(stateFile(),JSON.stringify({width:bounds.width,height:bounds.height,maximized:main.isMaximized()})); } catch {}
   });
   main.webContents.on('will-prevent-unload',event => { if (!dirty) event.preventDefault(); });
-  main.once('ready-to-show',()=>{if(windowState.maximized)main.maximize();main.show();});
   await main.loadFile(INDEX);
+  await new Promise(resolve=>setTimeout(resolve,Math.max(0,1600-(Date.now()-splashStarted))));
+  if(windowState.maximized)main.maximize();
+  main.show();
+  if(splash&&!splash.isDestroyed())splash.destroy();
+  splash=null;
 }
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
@@ -155,6 +160,11 @@ else {
       try {const url=new URL(details.url);if(url.protocol==='file:'){const relative=path.relative(ROOT,fileURLToPath(url));allowed=relative!==''&&!relative.startsWith('..')&&!path.isAbsolute(relative);}else allowed=['data:','blob:','devtools:'].includes(url.protocol);}catch{}
       callback({cancel:!allowed});
     });
+    splashStarted=Date.now();
+    splash=new BrowserWindow({width:560,height:360,minWidth:560,minHeight:360,frame:false,resizable:false,show:false,center:true,skipTaskbar:true,backgroundColor:'#0e2427',webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true}});
+    lockNavigation(splash);
+    splash.once('ready-to-show',()=>splash?.show());
+    await splash.loadFile(path.join(__dirname,'splash.html'));
     bindIPC();await createWindow();buildMenu();
     powerMonitor.on('resume',()=>{if(!main.isDestroyed())main.webContents.send('app:resume');});
     screen.on('display-metrics-changed',layoutToasts);
