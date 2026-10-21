@@ -1,5 +1,7 @@
 'use strict';
 const {app, BrowserWindow, ipcMain, dialog, Menu, Tray, nativeImage, Notification, screen, shell, powerMonitor, session} = require('electron');
+const {configureDisplay} = require('./display-backend.cjs');
+configureDisplay(app);
 const path = require('node:path');
 const fs = require('node:fs/promises');
 const {fileURLToPath} = require('node:url');
@@ -67,11 +69,12 @@ function notify(payload) {
   const group=[...toasts.entries()].filter(([,t])=>t.payload.position===payload.position);
   if(group.length>=capacity)closeToast(group[0][0]);
   if(toasts.size>=3)closeToast(toasts.keys().next().value);
-  const win = new BrowserWindow({width:396,height:226,show:false,frame:false,transparent:true,resizable:false,skipTaskbar:true,alwaysOnTop:true,focusable:false,hasShadow:false,webPreferences:{preload:path.join(__dirname,'notification-preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});
+  const initialBounds=toastSettings.bounds(payload.position,0,group.length+1,screen.getDisplayMatching(main.getBounds()).workArea);
+  const win = new BrowserWindow({...initialBounds,show:false,frame:false,transparent:true,resizable:false,skipTaskbar:true,alwaysOnTop:true,focusable:false,hasShadow:false,webPreferences:{preload:path.join(__dirname,'notification-preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});
   const entry = {window:win,payload,timer:null};
   toasts.set(payload.tag, entry);
   lockNavigation(win);
-  win.once('ready-to-show', () => { layoutToasts(); win.showInactive(); entry.timer=setTimeout(()=>closeToast(payload.tag),payload.duration*1000); });
+  win.once('ready-to-show', () => { layoutToasts(); win.showInactive(); layoutToasts(); entry.timer=setTimeout(()=>closeToast(payload.tag),payload.duration*1000); });
   win.webContents.once('did-finish-load', () => { win.webContents.send('toast:payload',payload); });
   win.on('closed', () => { clearTimeout(entry.timer); if (toasts.get(payload.tag) === entry) toasts.delete(payload.tag); layoutToasts(); });
   win.loadFile(TOAST).catch(() => { closeToast(payload.tag); nativeAlert(payload); });

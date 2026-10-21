@@ -30,7 +30,9 @@ Para desenvolvimento, `npm run dev` libera as ferramentas do Chromium no menu Vi
 
 O aplicativo precisa estar em execução e um JSON precisa estar aberto para monitorar os compromissos. Suspensão, desligamento e saída completa interrompem os alertas. Após suspensão, os avisos são reavaliados com a tolerância de dez minutos já usada no sistema. O JSON é aberto explicitamente a cada sessão.
 
-Em desktops Linux/Wayland que limitem a posição de janelas flutuantes, use as notificações nativas do sistema:
+No Ubuntu/Linux, o Desk usa X11/XWayland automaticamente quando `DISPLAY` está disponível, para respeitar a posição dos cartões. O atalho Linux já inclui o backend correto. Em uma execução direta sem esse parâmetro, o app reinicia uma única vez antes de abrir o JSON para selecionar XWayland no início do processo. Um backend definido explicitamente por `--ozone-platform` é preservado. Não é necessário trocar sua sessão do Ubuntu.
+
+Em ambientes sem XWayland, use as notificações nativas do sistema (nesse modo, o sistema escolhe a posição):
 
 ```bash
 npm start -- --native-notifications

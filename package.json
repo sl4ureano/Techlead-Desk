@@ -1,6 +1,6 @@
 {
   "name": "techlead-desk",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Seu espaço de trabalho, agora no desktop.",
   "author": "Adriano Laureano",
   "private": true,
@@ -52,7 +52,10 @@
           "StartupWMClass": "techlead-desk"
         }
       },
-      "syncDesktopName": true
+      "syncDesktopName": true,
+      "executableArgs": [
+        "--ozone-platform=x11"
+      ]
     },
     "win": {
       "target": [

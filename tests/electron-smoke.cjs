@@ -36,12 +36,20 @@ const {_electron} = require('playwright');
     assert.equal(await page.evaluate(()=>window.scrollY),0);
     await page.screenshot({path:path.join(dir,'workspace.png'),timeout:5000});
     const toastPromise=desktop.waitForEvent('window');
-    await page.evaluate(()=>window.desktop.notify({title:'Revisão de entrega',body:'Cartão desktop real · IPC isolado',tag:'smoke-alert'}));
+    await page.evaluate(()=>window.desktop.notify({title:'Revisão de entrega',body:'Cartão desktop real · IPC isolado',tag:'smoke-alert',position:'top-right'}));
     const toast=await toastPromise;
     await toast.locator('#title').waitFor({state:'attached'});
     assert((await toast.locator('#title').boundingBox()).width>0);
     await toast.waitForFunction(()=>document.querySelector('#title').textContent==='Revisão de entrega');
     assert.equal(await toast.locator('#body').textContent(),'Cartão desktop real · IPC isolado');
+    const corner=await desktop.evaluate(({BrowserWindow,screen})=>{
+      const win=BrowserWindow.getAllWindows().find(w=>w.webContents.getURL().endsWith('notification.html'));
+      const area=screen.getDisplayMatching(BrowserWindow.getAllWindows().find(w=>w!==win).getBounds()).workArea;
+      return {box:win.getBounds(),area:area.width>=400&&area.height>=240?area:{x:0,y:0,width:1280,height:800}};
+    });
+    assert.equal(corner.box.x+corner.box.width,corner.area.x+corner.area.width-18);
+    assert.equal(corner.box.y,corner.area.y+18);
+
     await toast.screenshot({path:path.join(dir,'notification.png'),timeout:5000});
     await toast.locator('#dismiss').click();
     await page.locator('#reminders-button').click();
