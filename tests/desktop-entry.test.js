@@ -18,8 +18,8 @@ test('start and dev resolve the application entry when a sibling JSON shares the
    const entry=metadata.scripts[script].split(/\s+/)[1];
    assert.equal(entry,'desktop/launch.cjs');
    const application=path.join(root,'desktop',path.basename(launchArgs([],'linux',{DISPLAY:':0'})[0]));
-   // Node resolves symlinks; macOS /var commonly aliases /private/var.
-   assert.equal(require.resolve(application),await realpath(path.join(root,'desktop/main.cjs')));
+   // Normalize aliases on both sides: macOS /var and Windows short paths.
+   assert.equal(await realpath(require.resolve(application)),await realpath(path.join(root,'desktop/main.cjs')));
   }
   assert.equal(await readFile(data,'utf8'),'{"tasks":[]}');
  }finally{await rm(dir,{recursive:true,force:true});}
