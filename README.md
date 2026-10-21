@@ -4,6 +4,8 @@ Um espaço pessoal para organizar o dia de quem lidera tecnologia: tarefas, assu
 
 ![Visão geral do Techlead Desk](docs/techlead-desk.png)
 
+[Conheça as demais telas e funcionalidades →](FUNCIONALIDADES.md)
+
 ## Como rodar
 
 ### Navegador
