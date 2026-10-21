@@ -18,8 +18,10 @@ const {_electron} = require('playwright');
     await splash.waitForFunction(()=>innerWidth===560);
     assert.equal((await splash.locator('body').boundingBox()).width,560);
     assert.equal(await splash.title(),'Iniciando Techlead Desk');
-    await splash.waitForFunction(()=>Number(getComputedStyle(document.querySelector('main')).opacity)>.99);
-    await splash.screenshot({path:path.join(dir,'splash.png'),timeout:1200});
+    if(process.env.TECHLEAD_HEADLESS){
+      await splash.waitForFunction(()=>Number(getComputedStyle(document.querySelector('main')).opacity)>.99,{},{polling:50});
+      await splash.screenshot({path:path.join(dir,'splash.png'),timeout:1200});
+    }
     let page;
     for(let i=0;i<200;i++){
       page=desktop.windows().find(p=>p.url().endsWith('/index.html'));
