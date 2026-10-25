@@ -35,7 +35,7 @@ const {pathToFileURL}=require('node:url');
    await page.locator('nav [data-nav="tasks"]').click();await page.locator('[data-new="tasks"]').click();
    await page.locator('#fields [name="title"]').fill('Tarefa compartilhada web e desktop');await page.locator('#edit-form button[type="submit"]').click();await page.getByRole('heading',{name:'Tarefa compartilhada web e desktop'}).waitFor();
    assert.equal(await page.evaluate(()=>JSON.parse(window.testFiles['browser.json']).tasks[0].title),'Tarefa compartilhada web e desktop');
-   await page.locator('#reminders-button').click();await page.locator('#reminder-position').selectOption('top-left');await page.locator('#reminder-duration').fill('3');
+   await page.locator('.file-actions summary').click();await page.locator('#reminders-button').click();await page.locator('#reminder-position').selectOption('top-left');await page.locator('#reminder-duration').fill('3');
    const head=page.locator('#reminders-dialog .dialog-head'),before=await head.boundingBox();
    await page.locator('#reminders-dialog .dialog-body').evaluate(el=>el.scrollTop=el.scrollHeight);assert.deepEqual(await head.boundingBox(),before);
    await page.locator('#test-desktop-notification').click();await page.locator('#web-alert-preview').waitFor({state:'visible'});
