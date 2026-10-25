@@ -30,3 +30,9 @@ body.desktop-app{--desktop-chrome:44px}body.desk-app{padding-top:var(--desktop-c
 
 .desk-app .workspace>header{gap:12px}.desk-app .workspace>header .file{min-width:0;flex:1}.desk-app .workspace>header .file strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.desk-app .workspace>header .file span{font-size:12px}.desk-app .workspace>header>button{flex:none;font-size:12px;padding:9px 12px;white-space:nowrap}
 @media(max-width:720px){.desk-app .workspace>header .file{min-width:120px;max-width:none}.desk-app .workspace>header>button{font-size:12px;padding:8px}}
+
+/* The native window is the desktop shell; fill it without a second frame. */
+body.desktop-app.desk-app #app{margin:0;width:100%;max-width:none;height:calc(100dvh - var(--desktop-chrome));min-height:0;border:0;border-radius:0;box-shadow:none}
+body.desktop-app.desk-app #app>aside{border-radius:0;min-height:0}
+body.desktop-app.desk-app .workspace{border-radius:0}
+body.desktop-app.desk-app .workspace>header{border-radius:0}
