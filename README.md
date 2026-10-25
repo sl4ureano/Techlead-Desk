@@ -53,4 +53,4 @@ Após `npm ci`, execute o comando no sistema correspondente:
 
 As saídas ficam em `release/`. Para gerar somente o aplicativo descompactado, use `npm run pack`.
 
-O [GitHub Actions](https://github.com/sl4ureano/Techlead-Desk/actions/workflows/desktop.yml) também gera o HTML único e os pacotes dos três sistemas. Baixe-os em **Artifacts** na execução concluída.
+O [GitHub Actions](https://github.com/sl4ureano/Techlead-Desk/actions/workflows/desktop.yml) também gera o HTML único e os pacotes dos três sistemas. Baixe builds de teste em **Artifacts** na execução concluída; versões publicadas ficam em [Releases](https://github.com/sl4ureano/Techlead-Desk/releases).

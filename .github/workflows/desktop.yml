@@ -2,6 +2,7 @@ name: Desktop builds
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -54,3 +55,25 @@ jobs:
             release/*.dmg
           if-no-files-found: error
           retention-days: 14
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: Techlead-Desk-*
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Techlead Desk ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            *.html
+            *.AppImage
+            *.deb
+            *.exe
+            *.dmg
+          fail_on_unmatched_files: true
